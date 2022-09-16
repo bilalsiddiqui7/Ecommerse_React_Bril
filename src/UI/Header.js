@@ -8,7 +8,7 @@ function Header() {
       <nav className="navbar navbar-expand-md bg-dark navbar-dark">
         <img className='logo-img' src={image} height={50} width={50} />
         {/* Brand */}
-        <Link to='/home'>
+        <Link to='/'>
           <a className="navbar-brand" href="">
             HandyKrafts
           </a>

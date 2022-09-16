@@ -12,6 +12,7 @@ import LoginForm from './UI/LoginForm';
 import RegistrationForm from './UI/RegistrationForm';
 import ChangePasswordForm from './UI/ChangePasswordForm';
 import Cart from './UI/Cart';
+import { addToCart } from './services/userService'
 function App() {
   const itemsList = [
     {
@@ -127,27 +128,27 @@ function App() {
       "quantity": 0
     }
   ]
-  
-  const [itemsListState, setItemsListState] = useState(itemsList)
+
+  const [itemsListState, setItemsListState] = useState()
   const [updatedListState, setUpdatedListState] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
-  const [id, setId] = useState(2)
+  const [id, setId] = useState(0)
 
   const handleAdd = (item) => {
     let newArr = [...updatedListState]
-    let newId = id
+    // let newId = id
     newArr.push(
       {
-        "id": ++newId,
-        "name": item.name,
-        "description": item.description,
+        "id": item.id,
+        "pname": item.pname,
+        "pdesc": item.pdesc,
         "price": item.price,
         "image": item.image,
-        "quantity": item.quantity + 1
+        "quantity": item.quantity
       }
     )
-    setId(newId)
-    setUpdatedListState(newArr);  
+    // setId(newId)
+    setUpdatedListState(newArr);
     let newTotalPrice = totalPrice;
     newTotalPrice += (1 * item.price)
     setTotalPrice(newTotalPrice)
@@ -187,6 +188,11 @@ function App() {
     setTotalPrice(newTotalPrice)
   }
 
+  const handlePlaceOrder = () => {
+    addToCart(updatedListState).then((resp) => {
+      console.log("Add to cart called" + JSON.stringify(updatedListState))
+    }).catch((error) => console.log("In App Error-> " + error))
+  }
   // useEffect(() => {
   //   console.log("this is the updatedListState inside App" + JSON.stringify(updatedListState));
   // }, [updatedListState]);
@@ -198,7 +204,7 @@ function App() {
         <Route path='/registration' element={<RegistrationForm />}></Route>
         <Route path='/changepassword' element={<ChangePasswordForm />}></Route>
         <Route path='/home' element={<Home itemsList={itemsListState} updateItems={handleAdd} />}></Route>
-        <Route path='/cart' element={<Cart updatedList={updatedListState} remove={handleRemove} increment={incrementHandle} decrement={decrementHandle} totalPriceProp={totalPrice} />}></Route>
+        <Route path='/cart' element={<Cart updatedList={updatedListState} remove={handleRemove} increment={incrementHandle} decrement={decrementHandle} totalPriceProp={totalPrice} placeOrder={handlePlaceOrder} />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

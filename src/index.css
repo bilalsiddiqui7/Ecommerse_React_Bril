@@ -16,6 +16,7 @@ body {
   /* background-image: url("C:\Users\bilal.siddiqui\Downloads\MicrosoftTeams-image.png");
   background-size: cover; */
   /* text-align: center; */
+  background-color: #f0f2f5;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -37,7 +38,7 @@ header.HandyKrafts {
 }
 
 form {
-  background-color: #F0FFFF;
+  /* background-color: #F0FFFF; */
   max-width: 350px;
   margin: 100px auto;
   padding: 10px 20px;

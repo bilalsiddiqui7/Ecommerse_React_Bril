@@ -1,6 +1,9 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { signUp } from '../services/userService'
+import { useNavigate } from "react-router-dom";
+
 function startsWithCapital(word) {
     return word.charAt(0) === word.charAt(0).toUpperCase()
 }
@@ -18,6 +21,8 @@ function LoginForm() {
     const [nameMessage, setNameMessage] = useState("")
     const [passwordMessage, setPasswordMessage] = useState("")
 
+    const navigate = useNavigate();
+
     const validateName = (e) => {
         e.preventDefault();
         if (name === "") {
@@ -30,7 +35,7 @@ function LoginForm() {
 
     const validatePassword = (e) => {
         e.preventDefault();
-        if (password == "") {
+        if (password === "") {
             setPasswordMessage("Password is required");
         } else if (password.length < 8) {
             setPasswordMessage("Password length must be atleast 8 characters");
@@ -45,9 +50,21 @@ function LoginForm() {
         }
         setPassword(e.target.value)
     }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const arr = { name, password }
+        console.log(arr)
+        signUp(arr).then((resp) => {
+            if(resp===true){
+                navigate("/home")
+            }
+        }).catch((error) => console.log("Error-> " + error))
+        
+    }
     return (
         <div>
-            <form name="loginForm">
+            <form name="loginForm" onSubmit={handleSubmit}>
                 <h2>Log In</h2>
                 <p className="para">Take your art to the next level.</p>
                 <label htmlFor="name"> Plese enter your name </label>
@@ -58,7 +75,7 @@ function LoginForm() {
                 <div className='errorMessage'>{passwordMessage}</div>
                 <Link to=
                     '/changepassword'>
-                    <p style={{color:'green'}}>Change Password</p>
+                    <p style={{ color: 'green' }}>Change Password</p>
                 </Link>
                 <input type="submit" defaultValue="Submit" />
             </form>

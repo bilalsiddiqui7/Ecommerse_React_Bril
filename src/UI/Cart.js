@@ -1,6 +1,9 @@
 import React from 'react'
-import { useEffect } from 'react'
-function Cart({ updatedList, increment, decrement, remove, totalPriceProp }) {
+import image from '../images/81zO234HByL._SX425_.jpg'
+import { useEffect,useState } from 'react'
+import { useNavigate } from "react-router-dom";
+
+function Cart({ updatedList, increment, decrement, remove, totalPriceProp, placeOrder}) {
   // useEffect(() => {
   //   console.log("this is the updatedList inside cart " + JSON.stringify(updatedList));
   // }, [updatedList]);
@@ -10,7 +13,7 @@ function Cart({ updatedList, increment, decrement, remove, totalPriceProp }) {
         <div className="card-body row" key={item.id}>
           <img
             className="card-img-top col-3"
-            src={item.image}
+            src={image}
             alt="Card image"
             style={{ width: "100%" }}
           />
@@ -25,7 +28,7 @@ function Cart({ updatedList, increment, decrement, remove, totalPriceProp }) {
                 +
               </button>
               <button type="button" className="btn btn-success">
-              ₹ {item.quantity * item.price}
+                ₹ {item.quantity * item.price}
               </button>
               <button type="button" className="btn btn-success" onClick={() => decrement(item)}>
                 -
@@ -44,10 +47,10 @@ function Cart({ updatedList, increment, decrement, remove, totalPriceProp }) {
       <div className='row'>
         <div className='col-9'>
           <h1>Total amount ₹ {totalPriceProp}</h1>
-          <h6 style={{color: "limegreen"}}>Delivery Charges (Free)</h6>
+          <h6 style={{ color: "limegreen" }}>Delivery Charges (Free)</h6>
         </div>
         <div className='col-3'>
-          <button type="button" className="btn btn-warning">Place order</button>
+          <button type="button" className="btn btn-warning" onClick={() => placeOrder()}>Place order</button>
         </div>
       </div>
     </div>
